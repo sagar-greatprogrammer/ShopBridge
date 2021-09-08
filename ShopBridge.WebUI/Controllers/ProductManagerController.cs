@@ -12,14 +12,13 @@ namespace ShopBridge.WebUI.Controllers
     public class ProductManagerController : Controller
     {
 
-        //IRepository<Product> context;
+        ProductRepository context;
         //IRepository<ProductCategory> productCategories;
 
-        //public ProductManagerController(IRepository<Product> productContext, IRepository<ProductCategory> productCategoryContext)
-        //{
-        //    context = productContext;
-        //    productCategories = productCategoryContext;
-        //}
+        public ProductManagerController()
+        {
+            context = new ProductRepository();
+        }
 
         // GET: ProductManager
         public ActionResult Index()
@@ -28,119 +27,103 @@ namespace ShopBridge.WebUI.Controllers
             return View(products);
         }
 
-        //public ActionResult Create()
-        //{
-        //    ProductManagerViewModel viewModel = new ProductManagerViewModel();
+        public ActionResult Create()
+        {
+            Product product = new Product();
 
-        //    viewModel.Product = new Product();
-        //    viewModel.ProductCategories = productCategories.Collection();
-        //    return View(viewModel);
-        //}
+            return View(product);
+        }
 
-        //[HttpPost]
-        //public ActionResult Create(Product product, HttpPostedFileBase file)
-        //{
-        //    if (!ModelState.IsValid)
-        //    {
-        //        return View(product);
-        //    }
-        //    else
-        //    {
+        [HttpPost]
+        public ActionResult Create(Product product)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(product);
+            }
+            else
+            {
 
-        //        if (file != null)
-        //        {
-        //            product.Image = product.Id + Path.GetExtension(file.FileName);
-        //            file.SaveAs(Server.MapPath("//Content//ProductImages//") + product.Image);
-        //        }
+                context.Insert(product);
+                context.Commit();
 
-        //        context.Insert(product);
-        //        context.Commit();
+                return RedirectToAction("Index");
+            }
 
-        //        return RedirectToAction("Index");
-        //    }
+        }
 
-        //}
+        public ActionResult Edit(string Id)
+        {
+            Product product = context.Find(Id);
+            if (product == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                return View(product);
+            }
+        }
 
-        //public ActionResult Edit(string Id)
-        //{
-        //    Product product = context.Find(Id);
-        //    if (product == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    else
-        //    {
-        //        ProductManagerViewModel viewModel = new ProductManagerViewModel();
-        //        viewModel.Product = product;
-        //        viewModel.ProductCategories = productCategories.Collection();
+        [HttpPost]
+        public ActionResult Edit(Product product, string Id, HttpPostedFileBase file)
+        {
+            Product productToEdit = context.Find(Id);
 
-        //        return View(viewModel);
-        //    }
-        //}
+            if (productToEdit == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                if (!ModelState.IsValid)
+                {
+                    return View(product);
+                }
 
-        //[HttpPost]
-        //public ActionResult Edit(Product product, string Id, HttpPostedFileBase file)
-        //{
-        //    Product productToEdit = context.Find(Id);
+                
+                        productToEdit.Category = product.Category;
+                        productToEdit.Description = product.Description;
+                        productToEdit.Image = product.Image;
+                        productToEdit.Name = product.Name;
+                        productToEdit.Price = product.Price;
 
-        //    if (productToEdit == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    else
-        //    {
-        //        if (!ModelState.IsValid)
-        //        {
-        //            return View(product);
-        //        }
+                        context.Commit();
 
-        //        if (file != null)
-        //        {
-        //            productToEdit.Image = product.Id + Path.GetExtension(file.FileName);
-        //            file.SaveAs(Server.MapPath("//Content//ProductImages//") + productToEdit.Image);
-        //        }
+                        return RedirectToAction("Index");
+                    }
+                }
 
-        //        productToEdit.Category = product.Category;
-        //        productToEdit.Description = product.Description;
-        //        productToEdit.Name = product.Name;
-        //        productToEdit.Price = product.Price;
+        public ActionResult Delete(string Id)
+        {
+            Product productToDelete = context.Find(Id);
 
-        //        context.Commit();
+            if (productToDelete == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                return View(productToDelete);
+            }
+        }
 
-        //        return RedirectToAction("Index");
-        //    }
-        //}
+        [HttpPost]
+        [ActionName("Delete")]
+        public ActionResult ConfirmDelete(string Id)
+        {
+            Product productToDelete = context.Find(Id);
 
-        //public ActionResult Delete(string Id)
-        //{
-        //    Product productToDelete = context.Find(Id);
-
-        //    if (productToDelete == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    else
-        //    {
-        //        return View(productToDelete);
-        //    }
-        //}
-
-        //[HttpPost]
-        //[ActionName("Delete")]
-        //public ActionResult ConfirmDelete(string Id)
-        //{
-        //    Product productToDelete = context.Find(Id);
-
-        //    if (productToDelete == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    else
-        //    {
-        //        context.Delete(Id);
-        //        context.Commit();
-        //        return RedirectToAction("Index");
-        //    }
-        //}
+            if (productToDelete == null)
+            {
+                return HttpNotFound();
+            }
+            else
+            {
+                context.Delete(Id);
+                context.Commit();
+                return RedirectToAction("Index");
+            }
+        }
     }
 }
