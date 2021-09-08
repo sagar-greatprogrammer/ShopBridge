@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using ShopBridge.Core.Contracts;
 using ShopBridge.Core.Models;
 using ShopBridge.DataAccess.InMemory;
 
@@ -12,12 +13,13 @@ namespace ShopBridge.WebUI.Controllers
     public class ProductManagerController : Controller
     {
 
-        ProductRepository context;
+        IRepository<Product> context;
         //IRepository<ProductCategory> productCategories;
 
-        public ProductManagerController()
+        public ProductManagerController(IRepository<Product> productContext)
         {
-            context = new ProductRepository();
+            context = productContext;
+
         }
 
         // GET: ProductManager

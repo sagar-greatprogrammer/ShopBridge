@@ -17,6 +17,7 @@ namespace ShopBridge.DataAccess.SQL.Migrations
                         Price = c.Decimal(nullable: false, precision: 18, scale: 2),
                         Category = c.String(),
                         Image = c.String(),
+                        CreatedAt = c.DateTimeOffset(nullable: false, precision: 7),
                     })
                 .PrimaryKey(t => t.Id);
             

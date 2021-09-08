@@ -13,7 +13,7 @@ namespace ShopBridge.DataAccess.SQL.Migrations
         
         string IMigrationMetadata.Id
         {
-            get { return "202109082032431_Initial"; }
+            get { return "202109082246098_Initial"; }
         }
         
         string IMigrationMetadata.Source
