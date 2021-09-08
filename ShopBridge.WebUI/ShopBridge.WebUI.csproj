@@ -170,6 +170,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\ProductManagerController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -238,6 +239,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ProductManager\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />
@@ -251,6 +253,24 @@
     <None Include="packages.config" />
     <Content Include="Scripts\jquery-3.4.1.slim.min.map" />
     <Content Include="Scripts\jquery-3.4.1.min.map" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\ShopBridge.Core\ShopBridge.Core.csproj">
+      <Project>{f781cfd6-e37e-44c0-be68-458f138cb2d7}</Project>
+      <Name>ShopBridge.Core</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShopBridge.DataAccess.InMemory\ShopBridge.DataAccess.InMemory.csproj">
+      <Project>{a1c01648-ed5a-4d49-b33c-fd683274bd5f}</Project>
+      <Name>ShopBridge.DataAccess.InMemory</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShopBridge.DataAccess.SQL\ShopBridge.DataAccess.SQL.csproj">
+      <Project>{ee477256-47ac-4b79-b216-211db60913de}</Project>
+      <Name>ShopBridge.DataAccess.SQL</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\ShopBridge.Services\ShopBridge.Services.csproj">
+      <Project>{af46e009-8a12-46e5-9db0-43a79737988f}</Project>
+      <Name>ShopBridge.Services</Name>
+    </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
